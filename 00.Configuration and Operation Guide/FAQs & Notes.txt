@@ -1,0 +1,14 @@
+1. Docker on Raspberry Pi / Jetson Nano automatically shuts down
+This may be because a device fails to mount, causing Docker to crash on startup. Use `ll /dev/` to check for missing devices.
+
+2. The robotic arm has no torque after being powered on
+This is normal. After sending an angle command to the robotic arm using `ros2 topic pub /arm6_joints arm_msgs/msg/ArmJoints {"joint1": 90, "joint2": 90, "joint3": 90, "joint4": 90, "joint5": 90, "joint6": 90, "time": 1500} --once`, the arm will restore its torque state.
+
+3. The AI large model voice example cannot play sound
+For the Jetson Orin version, check in the settings whether the input/output device has been changed and if the output device's audio channel is set correctly. For Raspberry Pi / Jetson Nano, you can check for the device by running `ll /dev/mic` inside the Docker container.
+
+4. Starting the communication agent gets stuck and fails
+Use the `docker ps` command to check for duplicate agent processes. If you see a name containing `ros-agent`, it means the agent is already running, and there is no need to restart it multiple times.
+
+5. Why doesn't the IP on the OLED screen change when WiFi is configured while an Ethernet cable is plugged in?
+By default, the OLED display prioritizes the Ethernet IP address over the WiFi IP address.
